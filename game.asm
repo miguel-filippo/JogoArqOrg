@@ -29,15 +29,21 @@ jmp Main
 ; As variaveis locais de cada funcao serao alocadas nos Registradores internos (r0 a r7)
 
 Pontuacao: var #1
+
+; Posicao do passaro
 PassaroPos: var #1
-PassaroPos2: var #1
+PassaroPos2: var #1					; Representa a posicao anterior do passaro para poder apagar
+
 CanoPos: var #1
 static CanoPos + #0, #38
-CanoTopo: var #1
+
+CanoTopo: var #1					; Linha do topo do gap do cano
 static CanoTopo + #0, #10
-VetorRandomIndex: var #1
+
+VetorRandomIndex: var #1			; Indexador do Vetor Random
 static VetorRandomIndex + #0, #0
 
+; Vetor Random
 VetorRandom: var #1064
 static VetorRandom + #0, #13
 static VetorRandom + #1, #8
@@ -1167,24 +1173,27 @@ TelaAgradecimento29: string "                                        "
 Score: string "Score: "
 
 Main:
+	; Inicializa variaveis para estado inicial do jogo
 	call ResetPontuacao
 	call ResetPassaro
-	loadn r0, #38
+	loadn r0, #38		; Nao consegui fazer uma subrotina ResetCano entao reseto manualmente aqui e no CalculaCanoPos
 	store CanoPos, r0
 
 	loadn r1, #TelaInicial00
 	loadn r2, #1024 ; Cor azul
 	call ImprimeTela
 	
+	; Logica principal do jogo
 	MainLoop:
 		call CalculaPassaroPos
 		call CalculaCanoPos
+		
+		call VerificaColisao
 		
 		call ImprimePassaro
 		call ImprimeCano
 		call ImprimePontuacao
 		
-		call VerificaColisao
 		call Delay
 		
 		jmp MainLoop
@@ -1257,19 +1266,21 @@ VerificaColisao:
 	push r7
 	
 	load r0, PassaroPos
-	loadn r1, #1159
+	loadn r1, #1159 ; Index limite inferior
 	
 	cmp r0, r1
 	jeg GameOver
 	
-	load r1, CanoPos
+	load r1, CanoPos ; R1 = coluna do cano
 	loadn r2, #40
 	div r3, r0, r2 ; R3 = linha do passaro
 	mod r2, r0, r2 ; R2 = coluna passaro
 	
+	; If (coluna passaro = coluna cano) VerificaColisaoVertical()
 	cmp r2, r1
 	jeq VerificaColisaoVertical
 	
+	; else rts
 	jmp VerificaColisaoNoHit
 	
 	VerificaColisaoVertical:
@@ -1277,12 +1288,14 @@ VerificaColisao:
 		loadn r5, #4
 		add r5, r5, r4 ; R5 = Linha da base do cano
 		
+		; if (passaro linha < cano top || passaro linha > cano base)
 		cmp r3, r4
 		jle GameOver
 		
 		cmp r3, r5
 		jgr GameOver
 		
+		; else Pontuacao++
 		load r0, Pontuacao
 		inc r0
 		store Pontuacao, r0
@@ -1308,28 +1321,43 @@ ImprimeCano:
 	push r6
 	push r7
 	
-	load r0, CanoPos ; Representa a coluna que vai ser impressa
-	loadn r1, #1; Linha de impressao
-	load r2, CanoTopo ; Linha do topo do gap
-	loadn r3, #4
-	add r3, r2, r3 ; Linha do base do gap
-	loadn r4, #29
+	load r0, CanoPos ; R0 = Representa a coluna que vai ser impressa
+	loadn r1, #1; R1 = Linha de impressao
+	load r2, CanoTopo ; R2 = Linha do topo do gap
+	loadn r3, #4 ; R3 = Gap
+	add r3, r2, r3 ; R3 = Linha do base do gap
+	loadn r4, #29 ; R4 = Linha maxima de impressao
 	
 	ImprimeCanoLoop:
+		; As comparacoes a seguir aplicam a seguinte condicao logica:
+		; if ((Linha de impressao < Linha do topo do gap || Linha de impressao > Linha da base do gap) && Linha de impressao < Linha maxima de impressao)
+		
+		; if (Linha de impressao < Linha do topo do gap) {
+		; 	Imprime celula;
+		; }
 		cmp r1, r2
 		jle ImprimeCanoCelula
 		
+		; if (Linha de impressao > Linha maxima de impressao) {
+		; 	Chegou ao fim -> rts;
+		; }
 		cmp r1, r4
 		jeg ImprimeCanoSai
 		
+		; if (Linha de impressao > Linha da base do gap) {
+		; 	Imprime celula;
+		; }
 		cmp r1, r3
 		jgr ImprimeCanoCelula
 		
+		; Desce para linha de baixo
 		inc r1
 		
 		jmp ImprimeCanoLoop
 		
 	ImprimeCanoCelula:
+		; A subrotina a seguir esta extremamente nao otimizada em relacao ao aproveitamento dos registradores.
+		; Compensa refatorar de forma a reutilizar registradores disponiveis.
 		push r2
 		push r3
 		push r4
@@ -1343,30 +1371,37 @@ ImprimeCano:
 		
 		loadn r2, #'}'
 		loadn r3, #40
-		mul r3, r3, r1
-		add r3, r3, r0
-		loadn r6, #512
+		; Calcula index baseado na coluna e linha
+		mul r3, r3, r1 ; Acha a linha
+		add r3, r3, r0 ; Soma a coluna
+		
+		loadn r6, #512 ; Cor verde
 		add r2, r6, r2
+		
 		outchar r2, r3
 		
-		loadn r2, #' '
+		loadn r2, #' ' ; Muda para caracter de limpeza
 		
-		; r5 = coluna atual
+		; Calcula coluna de impressao atual do caracter de limpeza
 		loadn r4, #40
 		mod r5, r3, r4
 		
+		; Pula para o caso onde coluna = 1, assim, evitando incremento na posicao e exclui o proprio cano.
+		; Talvez tenha uma logica melhor de implentar isso evitando a impressao inicial do cano caso
+		; coluna = 1
 		loadn r7, #1
 		cmp r7, r5
 		jeq LastPosCase
 		
 		inc r3 ; Vai para a celula da direita
 		
-		; Calcula a coluna da celula atual
+		; Calcula coluna de impressao atual do caracter de limpeza apos incremento
+		; (Eh necessario recalcular aqui? inc R5 resolve?)
 		loadn r4, #40
 		mod r5, r3, r4
 		
-		loadn r4, #39 ; Define para comparacao com coluna atual
-		
+		; Pula para o caso onde coluna = 39 e skipa a limpeza para nao excluir as limitacoes do mapa
+		loadn r4, #39
 		cmp r5, r4
 		jeq PularCelula
 		
@@ -1411,26 +1446,30 @@ CalculaCanoPos:
 	push r2
 	push r3
 	
+	; CanoPos--
 	load r0, CanoPos
 	dec r0
 	
 	loadn r1, #0
 	
+	; if (CanoPos == 0) rts
 	cmp r0, r1
 	jne CalculaCanoPosSai
 	
-	loadn r0, #38
+	; else
+	loadn r0, #38 ; Reseta posicao do cano
 	
-	load r1, VetorRandomIndex
-	loadn r2, #VetorRandom
-	add r2, r2, r1
+	; CanoTopo = VetorRandom[i++]
+	load r1, VetorRandomIndex ; R1 = i
+	loadn r2, #VetorRandom ; R2 = VetorRandom
+	add r2, r2, r1 ; R2 = VetorRandom[i]
 	
-	loadi r3, r2
-	store CanoTopo, r3
+	loadi r3, r2 ; R3 = VetorRandom[i]
+	store CanoTopo, r3 ; CapoPos = R3
 	
-	inc r1
+	inc r1 ; i++
 	loadn r2, #1024
-	mod r1, r1, r2
+	mod r1, r1, r2 ; Verifica se i < 1024, se nao, i = 0
 	store VetorRandomIndex, r1
 	
 	CalculaCanoPosSai:
@@ -1455,10 +1494,10 @@ CalculaPassaroPos:
 	inchar r2
 	cmp r1, r2
 	
-	; If True
+	; If True flap()
 	jeq CalculaPassaroPosFlap
 	
-	; If False
+	; If False PassaroPos++
 	loadn r1, #40
 	add r0, r0, r1
 	store PassaroPos, r0
@@ -1466,10 +1505,10 @@ CalculaPassaroPos:
 	jmp CalculaPassaroPosSai
 	
 	CalculaPassaroPosFlap:
-		loadn r1, #120
-		loadn r2, #39
-		sub r0, r0, r1
-		cmp r0, r2
+		loadn r1, #120 ; R1 = Magnitude do flap
+		loadn r2, #39 ; R2 = Ultimo index da primeira linha
+		sub r0, r0, r1 ; PassaroPos -= magnitude do flap
+		cmp r0, r2 ; Se linha do passaro for igual a primeira linha, nao salva a posicao
 		jel CalculaPassaroPosSai
 		store PassaroPos, r0
 		jmp CalculaPassaroPosSai
@@ -1486,11 +1525,11 @@ Delay:
     push r2
     
     loadn r2, #0         ; Valor zero para comparação 
-    loadn r0, #100      ; Contador externo (aumentado para 1000)
+    loadn r0, #300      ; Contador externo
 	    
 	Delay1:
 	    dec r0               ; Decrementa o contador externo
-	    loadn r1, #1000      ; Contador interno (aumentado para 1000)
+	    loadn r1, #1000      ; Contador interno
 	    
 	Delay2:
 	    dec r1               ; Decrementa o contador interno
@@ -1510,12 +1549,14 @@ ImprimePassaro:
 	push r1	; protege o r1 na pilha para preservar seu valor
 	push r2	; protege o r1 na pilha para preservar seu valor
 	
+	; Imprime posicao atual
 	loadn r1, #'{'
 	loadn r2, #2816
 	add r1, r1, r2
 	load r0, PassaroPos
 	outchar r1, r0
 	
+	; Limpa posicao anterior
 	loadn r1, #' '
 	load r0, PassaroPos2
 	outchar r1, r0
@@ -1593,7 +1634,7 @@ ImprimePontuacao:
 	call ImprimeStr
 	
 	loadn r0, #48
-	Call ImprimeScore
+	call ImprimeScore
 	
 	pop r2
 	pop r1
