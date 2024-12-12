@@ -7,22 +7,22 @@ jmp Main
 ; ------- TABELA DE CORES -------
 ; adicione ao caracter para Selecionar a cor correspondente
 
-; 0 branco                          0000 0000
-; 256 marrom                        0001 0000
-; 512 verde                         0010 0000
-; 768 oliva                         0011 0000
-; 1024 azul marinho                 0100 0000
-; 1280 roxo                         0101 0000
-; 1536 teal                         0110 0000
-; 1792 prata                        0111 0000
-; 2048 cinza                        1000 0000
-; 2304 vermelho                     1001 0000
-; 2560 lima                         1010 0000
-; 2816 amarelo                      1011 0000
-; 3072 azul                         1100 0000
-; 3328 rosa                         1101 0000
-; 3584 aqua                         1110 0000
-; 3840 branco                       1111 0000
+; 0 branco							0000 0000
+; 256 marrom						0001 0000
+; 512 verde							0010 0000
+; 768 oliva							0011 0000
+; 1024 azul marinho					0100 0000
+; 1280 roxo							0101 0000
+; 1536 teal							0110 0000
+; 1792 prata						0111 0000
+; 2048 cinza						1000 0000
+; 2304 vermelho						1001 0000
+; 2560 lima							1010 0000
+; 2816 amarelo						1011 0000
+; 3072 azul							1100 0000
+; 3328 rosa							1101 0000
+; 3584 aqua							1110 0000
+; 3840 branco						1111 0000
 
 ;---- Declaracao de Variaveis Globais -------------------------------------------------------
 ; Sao todas aquelas que precisam ser vistas por mais de uma funcao: Evita a passagem de parametros.
@@ -1065,36 +1065,40 @@ static VetorRandom + #1022, #9
 static VetorRandom + #1023, #4
 
 
-TelaInicial00: string "pppppppppppppppppppppppppppppppppppppppp"
-TelaInicial01: string "p                                      p"
-TelaInicial02: string "p                                      p"
-TelaInicial03: string "p                                      p"
-TelaInicial04: string "p                                      p"
-TelaInicial05: string "p                                      p"
-TelaInicial06: string "p                                      p"
-TelaInicial07: string "p                                      p"
-TelaInicial08: string "p                                      p"
-TelaInicial09: string "p                                      p"
-TelaInicial10: string "p                                      p"
-TelaInicial11: string "p                                      p"
-TelaInicial12: string "p                                      p"
-TelaInicial13: string "p                                      p"
-TelaInicial14: string "p                                      p"
-TelaInicial15: string "p                                      p"
-TelaInicial16: string "p                                      p"
-TelaInicial17: string "p                                      p"
-TelaInicial18: string "p                                      p"
-TelaInicial19: string "p                                      p"
-TelaInicial20: string "p                                      p"
-TelaInicial21: string "p                                      p"
-TelaInicial22: string "p                                      p"
-TelaInicial23: string "p                                      p"
-TelaInicial24: string "p                                      p"
-TelaInicial25: string "p                                      p"
-TelaInicial26: string "p                                      p"
-TelaInicial27: string "p                                      p"
-TelaInicial28: string "p                                      p"
-TelaInicial29: string "pppppppppppppppppppppppppppppppppppppppp"
+TelaInicial00: string ".______________________________________."
+TelaInicial01: string "|                                      |"
+TelaInicial02: string "|                                      |"
+TelaInicial03: string "|                                      |"
+TelaInicial04: string "|                                      |"
+TelaInicial05: string "|                                      |"
+TelaInicial06: string "|                                      |"
+TelaInicial07: string "|                                      |"
+TelaInicial08: string "|                                      |"
+TelaInicial09: string "|                                      |"
+TelaInicial10: string "|                                      |"
+TelaInicial11: string "|                                      |"
+TelaInicial12: string "|                                      |"
+TelaInicial13: string "|                                      |"
+TelaInicial14: string "|                                      |"
+TelaInicial15: string "|                                      |"
+TelaInicial16: string "|                                      |"
+TelaInicial17: string "|                                      |"
+TelaInicial18: string "|                                      |"
+TelaInicial19: string "|                                      |"
+TelaInicial20: string "|                                      |"
+TelaInicial21: string "|                                      |"
+TelaInicial22: string "|                                      |"
+TelaInicial23: string "|                                      |"
+TelaInicial24: string "|                                      |"
+TelaInicial25: string "|                                      |"
+TelaInicial26: string "|                                      |"
+TelaInicial27: string "|                                      |"
+TelaInicial28: string "|                                      |"
+TelaInicial29: string "|______________________________________|"
+
+
+
+
 
 
 TelaPosColisao00: string "                                        "
@@ -1163,546 +1167,551 @@ TelaAgradecimento29: string "                                        "
 Score: string "Score: "
 
 Main:
-    call ResetPontuacao
-    call ResetPassaro
-    loadn r0, #38
-    store CanoPos, r0
+	call ResetPontuacao
+	call ResetPassaro
+	loadn r0, #38
+	store CanoPos, r0
 
-    loadn r1, #TelaInicial00
-    loadn r2, #1024 ; Cor azul
-    call ImprimeTela
-    
-    MainLoop:
-        call CalculaPassaroPos
-        call CalculaCanoPos
-        
-        call ImprimePassaro
-        call ImprimeCano
-        call ImprimePontuacao
-        
-        call VerificaColisao
-        call Delay
-        
-        jmp MainLoop
-    
+	loadn r1, #TelaInicial00
+	loadn r2, #1024 ; Cor azul
+	call ImprimeTela
+	
+	MainLoop:
+		call CalculaPassaroPos
+		call CalculaCanoPos
+		
+		call ImprimePassaro
+		call ImprimeCano
+		call ImprimePontuacao
+		
+		call VerificaColisao
+		call Delay
+		
+		jmp MainLoop
+	
 GameOver:
-    push r0
-    push r1
-    push r2
-    push r3
-    
-    loadn r1, #TelaPosColisao00
-    loadn r2, #1792 ; Cor prata
-    call ImprimeTela
-    loadn r0, #584 ; Define a posicao certa para o score
-    call ImprimeScore
-    
-    GameOverLoop:
-        loadn r0, #255
-        loadn r1, #'y'
-        loadn r2, #'n'
-        
-        inchar r3
-        
-        cmp r1, r3
-        jeq Main
-        
-        cmp r2, r3
-        jeq GameOverExit
-        
-        cmp r0, r3
-        jeq GameOverLoop
-        
-        jmp GameOverLoop
-    
-    GameOverExit:
-        halt
+	push r0
+	push r1
+	push r2
+	push r3
+	
+	loadn r1, #TelaPosColisao00
+	loadn r2, #1792 ; Cor prata
+	call ImprimeTela
+	loadn r0, #584 ; Define a posicao certa para o score
+	call ImprimeScore
+	
+	GameOverLoop:
+		loadn r0, #255
+		loadn r1, #'y'
+		loadn r2, #'n'
+		
+		inchar r3
+		
+		call CalculaCanoPos
+		
+		cmp r1, r3
+		jeq Main
+		
+		cmp r2, r3
+		jeq GameOverExit
+		
+		cmp r0, r3
+		jeq GameOverLoop
+		
+		jmp GameOverLoop
+	
+	GameOverExit:
+		loadn r1, #TelaAgradecimento00
+		loadn r2, #1792 ; Cor prata
+		call ImprimeTela
+		halt
 
 ResetPassaro:
-    push r0
-    
-    loadn r0, #530
-    store PassaroPos, r0
-    store PassaroPos2, r0
-    
-    pop r0
-    rts
-    
+	push r0
+	
+	loadn r0, #530
+	store PassaroPos, r0
+	store PassaroPos2, r0
+	
+	pop r0
+	rts
+	
 ResetPontuacao:
-    push r0
-    
-    loadn r0, #0
-    store Pontuacao, r0
-    
-    pop r0
-    rts
-    
+	push r0
+	
+	loadn r0, #0
+	store Pontuacao, r0
+	
+	pop r0
+	rts
+	
 VerificaColisao:
-    push r0
-    push r1
-    push r2
-    push r3
-    push r4
-    push r5
-    push r6
-    push r7
-    
-    load r0, PassaroPos
-    loadn r1, #1159
-    
-    cmp r0, r1
-    jeg GameOver
-    
-    load r1, CanoPos
-    loadn r2, #40
-    div r3, r0, r2 ; R3 = linha do passaro
-    mod r2, r0, r2 ; R2 = coluna passaro
-    
-    cmp r2, r1
-    jeq VerificaColisaoVertical
-    
-    jmp VerificaColisaoNoHit
-    
-    VerificaColisaoVertical:
-        load r4, CanoTopo ; R4 = Linha do topo do cano
-        loadn r5, #4
-        add r5, r5, r4 ; R5 = Linha da base do cano
-        
-        cmp r3, r4
-        jle GameOver
-        
-        cmp r3, r5
-        jgr GameOver
-        
-        load r0, Pontuacao
-        inc r0
-        store Pontuacao, r0
-        
-    VerificaColisaoNoHit:
-    pop r7
-    pop r6
-    pop r5
-    pop r4
-    pop r3
-    pop r2
-    pop r1
-    pop r0
-    rts
-    
+	push r0
+	push r1
+	push r2
+	push r3
+	push r4
+	push r5
+	push r6
+	push r7
+	
+	load r0, PassaroPos
+	loadn r1, #1159
+	
+	cmp r0, r1
+	jeg GameOver
+	
+	load r1, CanoPos
+	loadn r2, #40
+	div r3, r0, r2 ; R3 = linha do passaro
+	mod r2, r0, r2 ; R2 = coluna passaro
+	
+	cmp r2, r1
+	jeq VerificaColisaoVertical
+	
+	jmp VerificaColisaoNoHit
+	
+	VerificaColisaoVertical:
+		load r4, CanoTopo ; R4 = Linha do topo do cano
+		loadn r5, #4
+		add r5, r5, r4 ; R5 = Linha da base do cano
+		
+		cmp r3, r4
+		jle GameOver
+		
+		cmp r3, r5
+		jgr GameOver
+		
+		load r0, Pontuacao
+		inc r0
+		store Pontuacao, r0
+		
+	VerificaColisaoNoHit:
+	pop r7
+	pop r6
+	pop r5
+	pop r4
+	pop r3
+	pop r2
+	pop r1
+	pop r0
+	rts
+	
 ImprimeCano:
-    push r0
-    push r1
-    push r2
-    push r3
-    push r4
-    push r5
-    push r6
-    push r7
-    
-    load r0, CanoPos ; Representa a coluna que vai ser impressa
-    loadn r1, #1; Linha de impressao
-    load r2, CanoTopo ; Linha do topo do gap
-    loadn r3, #4
-    add r3, r2, r3 ; Linha do base do gap
-    loadn r4, #29
-    
-    ImprimeCanoLoop:
-        cmp r1, r2
-        jle ImprimeCanoCelula
-        
-        cmp r1, r4
-        jeg ImprimeCanoSai
-        
-        cmp r1, r3
-        jgr ImprimeCanoCelula
-        
-        inc r1
-        
-        jmp ImprimeCanoLoop
-        
-    ImprimeCanoCelula:
-        push r2
-        push r3
-        push r4
-        push r5
-        push r6
-        push r7
-        
-        ; Imprime atual
-        ; Limpa anterior se nao for parede
-        ; Incrementa a linha
-        
-        loadn r2, #'#'
-        loadn r3, #40
-        mul r3, r3, r1
-        add r3, r3, r0
-        loadn r6, #512
-        add r2, r6, r2
-        outchar r2, r3
-        
-        loadn r2, #' '
-        
-        ; r5 = coluna atual
-        loadn r4, #40
-        mod r5, r3, r4
-        
-        loadn r7, #1
-        cmp r7, r5
-        jeq LastPosCase
-        
-        inc r3 ; Vai para a celula da direita
-        
-        ; Calcula a coluna da celula atual
-        loadn r4, #40
-        mod r5, r3, r4
-        
-        loadn r4, #39 ; Define para comparacao com coluna atual
-        
-        cmp r5, r4
-        jeq PularCelula
-        
-        
-        NotLastCase:
-        outchar r2, r3
-        jmp PularCelula
-        
-        LastPosCase:
-        outchar r2, r3
-        inc r3
-        jmp NotLastCase
-        
-        
-            
-        PularCelula:
-        
-        inc r1
-        
-        pop r7
-        pop r6
-        pop r5
-        pop r4
-        pop r3
-        pop r2
-        jmp ImprimeCanoLoop
-        
-    ImprimeCanoSai:
-        pop r7
-        pop r6
-        pop r5
-        pop r4
-        pop r3
-        pop r2
-        pop r1
-        pop r0
-        rts
-        
+	push r0
+	push r1
+	push r2
+	push r3
+	push r4
+	push r5
+	push r6
+	push r7
+	
+	load r0, CanoPos ; Representa a coluna que vai ser impressa
+	loadn r1, #1; Linha de impressao
+	load r2, CanoTopo ; Linha do topo do gap
+	loadn r3, #4
+	add r3, r2, r3 ; Linha do base do gap
+	loadn r4, #29
+	
+	ImprimeCanoLoop:
+		cmp r1, r2
+		jle ImprimeCanoCelula
+		
+		cmp r1, r4
+		jeg ImprimeCanoSai
+		
+		cmp r1, r3
+		jgr ImprimeCanoCelula
+		
+		inc r1
+		
+		jmp ImprimeCanoLoop
+		
+	ImprimeCanoCelula:
+		push r2
+		push r3
+		push r4
+		push r5
+		push r6
+		push r7
+		
+		; Imprime atual
+		; Limpa anterior se nao for parede
+		; Incrementa a linha
+		
+		loadn r2, #'}'
+		loadn r3, #40
+		mul r3, r3, r1
+		add r3, r3, r0
+		loadn r6, #512
+		add r2, r6, r2
+		outchar r2, r3
+		
+		loadn r2, #' '
+		
+		; r5 = coluna atual
+		loadn r4, #40
+		mod r5, r3, r4
+		
+		loadn r7, #1
+		cmp r7, r5
+		jeq LastPosCase
+		
+		inc r3 ; Vai para a celula da direita
+		
+		; Calcula a coluna da celula atual
+		loadn r4, #40
+		mod r5, r3, r4
+		
+		loadn r4, #39 ; Define para comparacao com coluna atual
+		
+		cmp r5, r4
+		jeq PularCelula
+		
+		
+		NotLastCase:
+		outchar r2, r3
+		jmp PularCelula
+		
+		LastPosCase:
+		outchar r2, r3
+		inc r3
+		jmp NotLastCase
+		
+		
+			
+		PularCelula:
+		
+		inc r1
+		
+		pop r7
+		pop r6
+		pop r5
+		pop r4
+		pop r3
+		pop r2
+		jmp ImprimeCanoLoop
+		
+	ImprimeCanoSai:
+		pop r7
+		pop r6
+		pop r5
+		pop r4
+		pop r3
+		pop r2
+		pop r1
+		pop r0
+		rts
+		
 CalculaCanoPos:
-    push r0
-    push r1
-    push r2
-    push r3
-    
-    load r0, CanoPos
-    dec r0
-    
-    loadn r1, #0
-    
-    cmp r0, r1
-    jne CalculaCanoPosSai
-    
-    loadn r0, #38
-    
-    load r1, VetorRandomIndex
-    loadn r2, #VetorRandom
-    add r2, r2, r1
-    
-    loadi r3, r2
-    store CanoTopo, r3
-    
-    inc r1
-    loadn r2, #1024
-    mod r1, r1, r2
-    store VetorRandomIndex, r1
-    
-    CalculaCanoPosSai:
-    store CanoPos, r0
-    pop r3
-    pop r2
-    pop r1
-    pop r0
-    rts
+	push r0
+	push r1
+	push r2
+	push r3
+	
+	load r0, CanoPos
+	dec r0
+	
+	loadn r1, #0
+	
+	cmp r0, r1
+	jne CalculaCanoPosSai
+	
+	loadn r0, #38
+	
+	load r1, VetorRandomIndex
+	loadn r2, #VetorRandom
+	add r2, r2, r1
+	
+	loadi r3, r2
+	store CanoTopo, r3
+	
+	inc r1
+	loadn r2, #1024
+	mod r1, r1, r2
+	store VetorRandomIndex, r1
+	
+	CalculaCanoPosSai:
+	store CanoPos, r0
+	pop r3
+	pop r2
+	pop r1
+	pop r0
+	rts
 
 CalculaPassaroPos:
-    push r0
-    push r1
-    push r2
-    
-    load r0, PassaroPos
-    mov r1, r0   ; PassaroPos2 = PassaroPos
-    store PassaroPos2, r1
-    
-    ; If inchar = ' '
-    loadn r1, #' '
-    inchar r2
-    cmp r1, r2
-    
-    ; If True
-    jeq CalculaPassaroPosFlap
-    
-    ; If False
-    loadn r1, #40
-    add r0, r0, r1
-    store PassaroPos, r0
-    
-    jmp CalculaPassaroPosSai
-    
-    CalculaPassaroPosFlap:
-        loadn r1, #120
-        loadn r2, #39
-        sub r0, r0, r1
-        cmp r0, r2
-        jel CalculaPassaroPosSai
-        store PassaroPos, r0
-        jmp CalculaPassaroPosSai
-    
-    CalculaPassaroPosSai:
-        pop r2
-        pop r1
-        pop r0
-        rts
-        
+	push r0
+	push r1
+	push r2
+	
+	load r0, PassaroPos
+	mov r1, r0   ; PassaroPos2 = PassaroPos
+	store PassaroPos2, r1
+	
+	; If inchar = ' '
+	loadn r1, #' '
+	inchar r2
+	cmp r1, r2
+	
+	; If True
+	jeq CalculaPassaroPosFlap
+	
+	; If False
+	loadn r1, #40
+	add r0, r0, r1
+	store PassaroPos, r0
+	
+	jmp CalculaPassaroPosSai
+	
+	CalculaPassaroPosFlap:
+		loadn r1, #120
+		loadn r2, #39
+		sub r0, r0, r1
+		cmp r0, r2
+		jel CalculaPassaroPosSai
+		store PassaroPos, r0
+		jmp CalculaPassaroPosSai
+	
+	CalculaPassaroPosSai:
+		pop r2
+		pop r1
+		pop r0
+		rts
+		
 Delay:
     push r0
     push r1
     push r2
     
     loadn r2, #0         ; Valor zero para comparação 
-    loadn r0, #150      ; Contador externo (aumentado para 1000)
-        
-    Delay1:
-        dec r0               ; Decrementa o contador externo
-        loadn r1, #1000      ; Contador interno (aumentado para 1000)
-        
-    Delay2:
-        dec r1               ; Decrementa o contador interno
-        cmp r1, r2           ; Verifica se r1 chegou a zero
-        jne Delay2           ; Continua até que r1 seja 0
-        
-        cmp r0, r2           ; Verifica se r0 chegou a zero
-        jne Delay1           ; Continua até que r0 seja 0
-        
+    loadn r0, #100      ; Contador externo (aumentado para 1000)
+	    
+	Delay1:
+	    dec r0               ; Decrementa o contador externo
+	    loadn r1, #1000      ; Contador interno (aumentado para 1000)
+	    
+	Delay2:
+	    dec r1               ; Decrementa o contador interno
+	    cmp r1, r2           ; Verifica se r1 chegou a zero
+	    jne Delay2           ; Continua até que r1 seja 0
+	    
+	    cmp r0, r2           ; Verifica se r0 chegou a zero
+	    jne Delay1           ; Continua até que r0 seja 0
+	    
     pop r2
     pop r1
     pop r0
     rts   
 
 ImprimePassaro:
-    push r0 ; protege o r0 na pilha para preservar seu valor
-    push r1 ; protege o r1 na pilha para preservar seu valor
-    push r2 ; protege o r1 na pilha para preservar seu valor
-    
-    loadn r1, #'O'
-    loadn r2, #2816
-    add r1, r1, r2
-    load r0, PassaroPos
-    outchar r1, r0
-    
-    loadn r1, #' '
-    load r0, PassaroPos2
-    outchar r1, r0
-    
-    pop r2
-    pop r1
-    pop r0
-    rts
-    
-ImprimeTela: ;          r0 = endereco onde comeca a menssagem
-    push r0 ; protege o r0 na pilha para preservar seu valor
-    push r1 ; protege o r1 na pilha para preservar seu valor
-    push r2 ; protege o r1 na pilha para preservar seu valor
-    push r3 ; protege o r3 na pilha para ser usado na subrotina
-    push r4 ; protege o r4 na pilha para ser usado na subrotina
-    push r5
+	push r0	; protege o r0 na pilha para preservar seu valor
+	push r1	; protege o r1 na pilha para preservar seu valor
+	push r2	; protege o r1 na pilha para preservar seu valor
+	
+	loadn r1, #'{'
+	loadn r2, #2816
+	add r1, r1, r2
+	load r0, PassaroPos
+	outchar r1, r0
+	
+	loadn r1, #' '
+	load r0, PassaroPos2
+	outchar r1, r0
+	
+	pop r2
+	pop r1
+	pop r0
+	rts
+	
+ImprimeTela: ;			r0 = endereco onde comeca a menssagem
+	push r0	; protege o r0 na pilha para preservar seu valor
+	push r1	; protege o r1 na pilha para preservar seu valor
+	push r2	; protege o r1 na pilha para preservar seu valor
+	push r3	; protege o r3 na pilha para ser usado na subrotina
+	push r4	; protege o r4 na pilha para ser usado na subrotina
+	push r5
 
-    loadn r0, #0 ; guarda no r0 a posição onde escrever a string para acertar o parametro da subrotina ImprimeStr
-    loadn r3, #40 ; valor para descer pra proxima linha da tela
-    loadn r4, #41 ; valor para descer para proxima linha da memoria
-    loadn r5, #1200 ; criterio de parada da impressao
-    
-    ImprimeTelaLoop:
-        cmp r0, r5
-        jeq ImprimeTelaSai
-        call ImprimeStr
-        add r0, r3, r0
-        add r1, r4, r1
-        jmp ImprimeTelaLoop
-    
-    ImprimeTelaSai:
-        pop r5
-        pop r4  ; Resgata os valores dos registradores utilizados na Subrotina da Pilha
-        pop r3
-        pop r2
-        pop r1
-        pop r0
-        rts
+	loadn r0, #0 ; guarda no r0 a posição onde escrever a string para acertar o parametro da subrotina ImprimeStr
+	loadn r3, #40 ; valor para descer pra proxima linha da tela
+	loadn r4, #41 ; valor para descer para proxima linha da memoria
+	loadn r5, #1200 ; criterio de parada da impressao
+	
+	ImprimeTelaLoop:
+		cmp r0, r5
+		jeq ImprimeTelaSai
+		call ImprimeStr
+		add r0, r3, r0
+		add r1, r4, r1
+		jmp ImprimeTelaLoop
+	
+	ImprimeTelaSai:
+		pop r5
+		pop r4	; Resgata os valores dos registradores utilizados na Subrotina da Pilha
+		pop r3
+		pop r2
+		pop r1
+		pop r0
+		rts
 
-ImprimeStr: ;  Rotina de Impresao de Mensagens:    r0 = Posicao da tela que o primeiro caractere da mensagem sera' impresso;  r1 = endereco onde comeca a mensagem; r2 = cor da mensagem.   Obs: a mensagem sera' impressa ate' encontrar "/0"
-    push r0 ; protege o r0 na pilha para preservar seu valor
-    push r1 ; protege o r1 na pilha para preservar seu valor
-    push r2 ; protege o r1 na pilha para preservar seu valor
-    push r3 ; protege o r3 na pilha para ser usado na subrotina
-    push r4 ; protege o r4 na pilha para ser usado na subrotina
-    
-    loadn r3, #'\0' ; Criterio de parada
+ImprimeStr:	;  Rotina de Impresao de Mensagens:    r0 = Posicao da tela que o primeiro caractere da mensagem sera' impresso;  r1 = endereco onde comeca a mensagem; r2 = cor da mensagem.   Obs: a mensagem sera' impressa ate' encontrar "/0"
+	push r0	; protege o r0 na pilha para preservar seu valor
+	push r1	; protege o r1 na pilha para preservar seu valor
+	push r2	; protege o r1 na pilha para preservar seu valor
+	push r3	; protege o r3 na pilha para ser usado na subrotina
+	push r4	; protege o r4 na pilha para ser usado na subrotina
+	
+	loadn r3, #'\0'	; Criterio de parada
 
-    ImprimeStrLoop: 
-    loadi r4, r1
-    cmp r4, r3
-    jeq ImprimeStrSai
-    add r4, r2, r4
-    outchar r4, r0
-    inc r0
-    inc r1
-    jmp ImprimeStrLoop
-    
-    ImprimeStrSai:  
-    pop r4  ; Resgata os valores dos registradores utilizados na Subrotina da Pilha
-    pop r3
-    pop r2
-    pop r1
-    pop r0
-    rts
+	ImprimeStrLoop:	
+	loadi r4, r1
+	cmp r4, r3
+	jeq ImprimeStrSai
+	add r4, r2, r4
+	outchar r4, r0
+	inc r0
+	inc r1
+	jmp ImprimeStrLoop
+	
+	ImprimeStrSai:	
+	pop r4	; Resgata os valores dos registradores utilizados na Subrotina da Pilha
+	pop r3
+	pop r2
+	pop r1
+	pop r0
+	rts
 
 ImprimePontuacao:
-    push r0
-    push r1
-    push r2
-    
-    loadn r0, #41 ; Local de escrita de "Score: "
-    loadn r1, #Score
-    loadn r2, #0
-    call ImprimeStr
-    
-    loadn r0, #48
-    Call ImprimeScore
-    
-    pop r2
-    pop r1
-    pop r0
-    rts 
+	push r0
+	push r1
+	push r2
+	
+	loadn r0, #41 ; Local de escrita de "Score: "
+	loadn r1, #Score
+	loadn r2, #0
+	call ImprimeStr
+	
+	loadn r0, #48
+	Call ImprimeScore
+	
+	pop r2
+	pop r1
+	pop r0
+	rts 
 
 ImprimeScore:
-    ;loadn r0, #584     ; Primeira posicao do score
-    load r1, Pontuacao
-    loadn r2, #1000     ; Para pegar primeiro digito da pontuacao
-    div r3, r1, r2      ; Se pontuacao for mais de 1000 da 1, se nao da 0
+	;loadn r0, #584		; Primeira posicao do score
+	load r1, Pontuacao
+	loadn r2, #1000		; Para pegar primeiro digito da pontuacao
+	div r3, r1, r2		; Se pontuacao for mais de 1000 da 1, se nao da 0
 
-    call BuscaCaracter
-    outchar r4, r0
-    
-    inc r0
-    load r1, Pontuacao
-    
-    loadn r2, #1000     ; Para eliminar o primeiro digito
-    mod r1, r1, r2
-    
-    loadn r2, #100      ; Para pegar o segundo digito
-    div r3, r1, r2      ; Se pontuacao for mais de 1000 da 1, se nao da 0
+	call BuscaCaracter
+	outchar r4, r0
+	
+	inc r0
+	load r1, Pontuacao
+	
+	loadn r2, #1000		; Para eliminar o primeiro digito
+	mod r1, r1, r2
+	
+	loadn r2, #100		; Para pegar o segundo digito
+	div r3, r1, r2		; Se pontuacao for mais de 1000 da 1, se nao da 0
 
-    call BuscaCaracter
-    outchar r4, r0
-    
-    inc r0
-    load r1, Pontuacao
-    
-    loadn r2, #100      ; Para eliminar o primeiro digito
-    mod r1, r1, r2
-    
-    loadn r2, #10       ; Para pegar o segundo digito
-    div r3, r1, r2      ; Se pontuacao for mais de 1000 da 1, se nao da 0
+	call BuscaCaracter
+	outchar r4, r0
+	
+	inc r0
+	load r1, Pontuacao
+	
+	loadn r2, #100		; Para eliminar o primeiro digito
+	mod r1, r1, r2
+	
+	loadn r2, #10		; Para pegar o segundo digito
+	div r3, r1, r2		; Se pontuacao for mais de 1000 da 1, se nao da 0
 
-    call BuscaCaracter
-    outchar r4, r0
-    
-    inc r0
-    load r1, Pontuacao
-    
-    loadn r2, #10       ; Para eliminar o primeiro digito
-    mod r1, r1, r2
-    
-    loadn r2, #1        ; Para pegar o segundo digito
-    div r3, r1, r2      ; Se pontuacao for mais de 1000 da 1, se nao da 0
+	call BuscaCaracter
+	outchar r4, r0
+	
+	inc r0
+	load r1, Pontuacao
+	
+	loadn r2, #10		; Para eliminar o primeiro digito
+	mod r1, r1, r2
+	
+	loadn r2, #1		; Para pegar o segundo digito
+	div r3, r1, r2		; Se pontuacao for mais de 1000 da 1, se nao da 0
 
-    call BuscaCaracter
-    outchar r4, r0
-    
-    rts
-    
+	call BuscaCaracter
+	outchar r4, r0
+	
+	rts
+	
 BuscaCaracter:
-    BuscaCase_0:
-        loadn r4, #0
-        cmp r3, r4
-        jne BuscaCase_1
-        loadn r4, #'0'
-        rts
-        
-    BuscaCase_1:
-        loadn r4, #1
-        cmp r3, r4
-        jne BuscaCase_2
-        loadn r4, #'1'
-        rts
-    
-    BuscaCase_2:
-        loadn r4, #2
-        cmp r3, r4
-        jne BuscaCase_3
-        loadn r4, #'2'
-        rts
-    
-    BuscaCase_3:
-        loadn r4, #3
-        cmp r3, r4
-        jne BuscaCase_4
-        loadn r4, #'3'
-        rts
-    
-    BuscaCase_4:
-        loadn r4, #4
-        cmp r3, r4
-        jne BuscaCase_5
-        loadn r4, #'4'
-        rts
-    
-    BuscaCase_5:
-        loadn r4, #5
-        cmp r3, r4
-        jne BuscaCase_6
-        loadn r4, #'5'
-        rts
-        
-    BuscaCase_6:
-        loadn r4, #6
-        cmp r3, r4
-        jne BuscaCase_7
-        loadn r4, #'6'
-        rts
-        
-    BuscaCase_7:
-        loadn r4, #7
-        cmp r3, r4
-        jne BuscaCase_8
-        loadn r4, #'7'
-        rts
-        
-    BuscaCase_8:
-        loadn r4, #8
-        cmp r3, r4
-        jne BuscaCase_9
-        loadn r4, #'8'
-        rts
+	BuscaCase_0:
+		loadn r4, #0
+		cmp r3, r4
+		jne BuscaCase_1
+		loadn r4, #'0'
+		rts
+		
+	BuscaCase_1:
+		loadn r4, #1
+		cmp r3, r4
+		jne BuscaCase_2
+		loadn r4, #'1'
+		rts
+	
+	BuscaCase_2:
+		loadn r4, #2
+		cmp r3, r4
+		jne BuscaCase_3
+		loadn r4, #'2'
+		rts
+	
+	BuscaCase_3:
+		loadn r4, #3
+		cmp r3, r4
+		jne BuscaCase_4
+		loadn r4, #'3'
+		rts
+	
+	BuscaCase_4:
+		loadn r4, #4
+		cmp r3, r4
+		jne BuscaCase_5
+		loadn r4, #'4'
+		rts
+	
+	BuscaCase_5:
+		loadn r4, #5
+		cmp r3, r4
+		jne BuscaCase_6
+		loadn r4, #'5'
+		rts
+		
+	BuscaCase_6:
+		loadn r4, #6
+		cmp r3, r4
+		jne BuscaCase_7
+		loadn r4, #'6'
+		rts
+		
+	BuscaCase_7:
+		loadn r4, #7
+		cmp r3, r4
+		jne BuscaCase_8
+		loadn r4, #'7'
+		rts
+		
+	BuscaCase_8:
+		loadn r4, #8
+		cmp r3, r4
+		jne BuscaCase_9
+		loadn r4, #'8'
+		rts
 
-    BuscaCase_9:
-        loadn r4, #'9'  ; Se chegou aqui como certeza eh esse
-        rts
-        
+	BuscaCase_9:
+		loadn r4, #'9'	; Se chegou aqui como certeza eh esse
+		rts
+		
