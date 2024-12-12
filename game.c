@@ -21,17 +21,6 @@ void clear_screen() {
     system("cls"); // Clears the screen in Windows
 }
 
-void draw(char grid[HEIGHT][WIDTH]) {
-    clear_screen();
-
-    for (int i = 0; i < HEIGHT; i++) {
-        for (int j = 0; j < WIDTH; j++) {
-            printf("%c", grid[i][j]);
-        }
-        printf("\n");
-    }
-}
-
 void update_grid(char grid[HEIGHT][WIDTH], char* gridString, Bird *bird, Pipe *pipe, int *score) {
     // Clear the grid
     for (int i = 0; i < HEIGHT; i++) {
@@ -45,18 +34,20 @@ void update_grid(char grid[HEIGHT][WIDTH], char* gridString, Bird *bird, Pipe *p
 
     // Draw bird
     grid[bird->y][bird->x] = 'O';
+    grid[bird->y][bird->x + 1] = '>';
 
     // Draw pipe
     for (int i = 0; i < HEIGHT; i++) {
-        if (i < pipe->top || i > pipe->bottom) {
-            if (pipe->x >= 0 && pipe->x < WIDTH) {
+        if (i < pipe->top || i > pipe->bottom) {             // Check to draw the pipe but not the gap.
+            if (pipe->x >= 0 && pipe->x < WIDTH) {           // Check to draw the pipe only if it is visible.
                 grid[i][pipe->x] = '#';
             }
         }
     }
 
-    // Check for collisions
-    if (bird->y < 0 || bird->y >= HEIGHT || (pipe->x == bird->x &&
+
+    // Check for collisions:
+    if (bird->y < 0 || (pipe->x == bird->x &&                  // Bird hit the floor OR Bird hit the pipe
         (bird->y < pipe->top || bird->y > pipe->bottom))) {
         printf("\nGame Over! Your score: %d\n", *score);
         getchar();
@@ -83,7 +74,8 @@ int main() {
 
     char grid[HEIGHT][WIDTH];
     Bird bird = {5, HEIGHT / 2};
-    Pipe pipe = {rand() % (HEIGHT - PIPE_GAP), rand() % (HEIGHT - PIPE_GAP) + PIPE_GAP, WIDTH - 1};
+    int pipeTop = rand() % (HEIGHT - PIPE_GAP);
+    Pipe pipe = {pipeTop, pipeTop + PIPE_GAP, WIDTH - 1};
     int score = 0;
 
     int gravity = 1, gravityDelay = 2, flap = 3;
@@ -124,6 +116,7 @@ int main() {
 
         // Display score
         printf("Score: %d\n", score);
+        printf("Top: %d Bottom: %d\n", pipe.top, pipe.bottom);
 
         // Delay for frame rate
         Sleep(10); // Windows equivalent of usleep(100000)
